@@ -1,0 +1,6 @@
+{
+  "name": "GourmetOS Restaurant ERP",
+  "description": "Sistema integral de gestión para restaurantes con barra lateral, POS, inventarios, capital invertido vs. esperado, escandallos y KDS.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
