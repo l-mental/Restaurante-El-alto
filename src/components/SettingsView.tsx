@@ -149,11 +149,12 @@ export const SettingsView: React.FC = () => {
                 value={formData.currency}
                 onChange={(e) => {
                   const curr = e.target.value;
-                  const sym = curr === 'USD' ? '$' : curr === 'SOL' ? 'S/.' : curr === 'EUR' ? '€' : '$';
+                  const sym = curr === 'BOB' ? 'Bs.' : curr === 'USD' ? '$' : curr === 'SOL' ? 'S/.' : curr === 'EUR' ? '€' : '$';
                   setFormData({ ...formData, currency: curr, currencySymbol: sym });
                 }}
                 className="w-full bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-white"
               >
+                <option value="BOB">Boliviano (Bs.)</option>
                 <option value="USD">Dólar Estadounidense ($)</option>
                 <option value="SOL">Sol Peruano (S/.)</option>
                 <option value="EUR">Euro (€)</option>

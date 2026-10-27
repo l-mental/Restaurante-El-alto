@@ -12,17 +12,17 @@ import {
 
 export const initialSettings: RestaurantSettings = {
   name: 'Aroma & Fuego Bistro Grill',
-  legalName: 'Operadora Gastronómica Gourmet S.A.C.',
-  taxId: '20608945231',
-  address: 'Av. Las Palmas 450, Distrito Gourmet',
-  phone: '+51 984 552 110',
-  currency: 'USD',
-  currencySymbol: '$',
-  taxName: 'IVA / IGV',
-  taxRate: 0.18,
+  legalName: 'Operadora Gastronómica Gourmet S.R.L.',
+  taxId: '1028475021', // NIT Bolivia
+  address: 'Av. San Martín 820, Equipetrol, Santa Cruz',
+  phone: '+591 785 24110',
+  currency: 'BOB',
+  currencySymbol: 'Bs.',
+  taxName: 'IVA',
+  taxRate: 0.13, // 13% IVA Bolivia
   tipRate: 0.10,
-  monthlyFixedCosts: 8500, // Alquiler, nóminas, energía, seguros
-  dailySalesTarget: 1400,
+  monthlyFixedCosts: 24500, // Alquiler, nóminas, energía en Bs.
+  dailySalesTarget: 3800,
 };
 
 export const initialInventory: InventoryItem[] = [

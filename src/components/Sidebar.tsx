@@ -21,6 +21,7 @@ interface NavItem {
   id: string;
   label: string;
   sublabel: string;
+  hotkey: string;
   icon: React.ElementType;
   badge?: number | string;
 }
@@ -52,6 +53,7 @@ export const Sidebar: React.FC = () => {
       id: 'pos',
       label: 'Punto de Venta POS',
       sublabel: 'Mesas y Comandas',
+      hotkey: 'F1',
       icon: UtensilsCrossed,
       badge: orders.filter((o) => o.status === 'open').length || undefined,
     },
@@ -59,6 +61,7 @@ export const Sidebar: React.FC = () => {
       id: 'kds',
       label: 'Cocina KDS',
       sublabel: 'Comandas en Marcha',
+      hotkey: 'F2',
       icon: ChefHat,
       badge: pendingCookingCount > 0 ? pendingCookingCount : undefined,
     },
@@ -66,6 +69,7 @@ export const Sidebar: React.FC = () => {
       id: 'inventory',
       label: 'Inventarios & Stock',
       sublabel: 'Materias Primas',
+      hotkey: 'F3',
       icon: Boxes,
       badge: lowStockCount > 0 ? lowStockCount : undefined,
     },
@@ -73,74 +77,80 @@ export const Sidebar: React.FC = () => {
       id: 'recipes',
       label: 'Escandallo & Costeo',
       sublabel: 'Fichas Técnicas',
+      hotkey: 'F4',
       icon: Layers,
     },
     {
       id: 'capital',
       label: 'Capital & Finanzas',
       sublabel: 'Invertido vs Esperado',
+      hotkey: 'F5',
       icon: TrendingUp,
     },
     {
       id: 'sales',
       label: 'Ventas & Facturación',
       sublabel: 'Comprobantes y Tickets',
+      hotkey: 'F7',
       icon: ReceiptText,
     },
     {
       id: 'cash',
       label: 'Caja & Arqueo',
       sublabel: 'Turno y Movimientos',
+      hotkey: 'F6',
       icon: Wallet,
     },
     {
       id: 'staff',
       label: 'Personal & Estaciones',
       sublabel: 'Turnos y Rendimiento',
+      hotkey: 'F8',
       icon: Users,
     },
     {
       id: 'settings',
       label: 'Configuración',
       sublabel: 'Parámetros del Sistema',
+      hotkey: 'F9',
       icon: Settings,
     },
   ];
 
   return (
     <aside
-      className={`relative flex flex-col bg-slate-900 border-r border-slate-800 transition-all duration-200 z-30 select-none ${
-        isSidebarCollapsed ? 'w-20' : 'w-72'
+      className={`relative flex flex-col bg-slate-925 bg-slate-900 border-r border-slate-800 transition-all duration-150 z-30 select-none ${
+        isSidebarCollapsed ? 'w-16' : 'w-64'
       }`}
     >
-      {/* Brand Header */}
-      <div className="flex items-center justify-between px-4 py-4 border-b border-slate-800">
-        <div className="flex items-center gap-3 overflow-hidden">
-          <div className="w-10 h-10 rounded-lg bg-amber-500/10 border border-amber-500/20 flex items-center justify-center shrink-0 text-amber-400">
-            <Store className="w-5 h-5 stroke-[2.2]" />
+      {/* Desktop App Branch Header */}
+      <div className="flex items-center justify-between px-3 py-3 border-b border-slate-800 bg-slate-950/40">
+        <div className="flex items-center gap-2.5 overflow-hidden">
+          <div className="w-8 h-8 rounded-lg bg-amber-500/10 border border-amber-500/20 flex items-center justify-center shrink-0 text-amber-400">
+            <Store className="w-4 h-4 stroke-[2.2]" />
           </div>
           {!isSidebarCollapsed && (
             <div className="truncate">
-              <h1 className="font-bold text-sm tracking-tight text-white truncate">
+              <h1 className="font-desktop-heading font-bold text-xs tracking-tight text-white truncate">
                 {settings.name}
               </h1>
-              <p className="text-xs text-slate-400 truncate">
-                Sistema Integral de Restaurante
+              <p className="text-[10px] text-slate-400 truncate font-mono">
+                Terminal POS · Salón Central
               </p>
             </div>
           )}
         </div>
         <button
           onClick={() => setIsSidebarCollapsed((prev) => !prev)}
-          className="p-1.5 rounded-md text-slate-400 hover:text-white hover:bg-slate-800 transition-colors shrink-0"
-          title={isSidebarCollapsed ? 'Expandir barra lateral' : 'Colapsar barra lateral'}
+          className="p-1 rounded text-slate-400 hover:text-white hover:bg-slate-800 transition-colors shrink-0"
+          title={isSidebarCollapsed ? 'Expandir panel lateral (Ctrl+B)' : 'Colapsar panel lateral (Ctrl+B)'}
         >
-          {isSidebarCollapsed ? <ChevronRight className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}
+          {isSidebarCollapsed ? <ChevronRight className="w-3.5 h-3.5" /> : <ChevronLeft className="w-3.5 h-3.5" />}
         </button>
       </div>
 
-      {/* Navigation List */}
-      <nav className="flex-1 overflow-y-auto px-3 py-3 space-y-1">
+      {/* Navigation List - Desktop Software Styling */}
+      <nav className="flex-1 overflow-y-auto p-2 space-y-0.5">
         {navItems.map((item) => {
           const Icon = item.icon;
           const isActive = activeTab === item.id;
@@ -149,40 +159,51 @@ export const Sidebar: React.FC = () => {
             <button
               key={item.id}
               onClick={() => setActiveTab(item.id)}
-              className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-left transition-all ${
+              className={`w-full flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-left transition-all ${
                 isActive
-                  ? 'bg-amber-500/15 text-amber-300 border border-amber-500/30 font-medium'
-                  : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/70'
+                  ? 'bg-amber-500/15 text-amber-300 border border-amber-500/30 font-semibold shadow-xs'
+                  : 'text-slate-300 hover:text-white hover:bg-slate-800/60 border border-transparent'
               }`}
-              title={isSidebarCollapsed ? item.label : undefined}
+              title={isSidebarCollapsed ? `${item.label} [${item.hotkey}]` : undefined}
             >
               <Icon
-                className={`w-5 h-5 shrink-0 ${
+                className={`w-4 h-4 shrink-0 ${
                   isActive ? 'text-amber-400 stroke-[2.2]' : 'text-slate-400'
                 }`}
               />
               {!isSidebarCollapsed && (
                 <div className="flex-1 truncate">
-                  <div className="text-xs font-semibold tracking-wide truncate">
+                  <div className="text-[12px] font-medium tracking-tight truncate leading-tight">
                     {item.label}
                   </div>
-                  <div className="text-[11px] text-slate-400 truncate font-normal">
+                  <div className="text-[10px] text-slate-400 truncate font-normal leading-tight">
                     {item.sublabel}
                   </div>
                 </div>
               )}
-              {item.badge !== undefined && !isSidebarCollapsed && (
-                <span
-                  className={`text-[10px] font-mono-numbers px-2 py-0.5 rounded ${
-                    item.id === 'inventory' && lowStockCount > 0
-                      ? 'bg-rose-500/20 text-rose-300 border border-rose-500/30'
-                      : 'bg-slate-800 text-slate-300'
-                  }`}
-                >
-                  {item.badge}
-                </span>
+
+              {/* Desktop Shortcut Badge & Counter */}
+              {!isSidebarCollapsed && (
+                <div className="flex items-center gap-1.5 shrink-0">
+                  {item.badge !== undefined && (
+                    <span
+                      className={`text-[9px] font-mono-numbers px-1.5 py-0.2 rounded font-semibold ${
+                        item.id === 'inventory' && lowStockCount > 0
+                          ? 'bg-rose-500/20 text-rose-300 border border-rose-500/30'
+                          : 'bg-slate-800 text-slate-300'
+                      }`}
+                    >
+                      {item.badge}
+                    </span>
+                  )}
+                  <kbd className="font-mono text-[9px] text-slate-400 bg-slate-950/70 border border-slate-800 px-1 py-0.2 rounded">
+                    {item.hotkey}
+                  </kbd>
+                </div>
               )}
-              {item.badge !== undefined && isSidebarCollapsed && (
+
+              {/* Collapsed dot indicators */}
+              {isSidebarCollapsed && item.badge !== undefined && (
                 <span className="w-2 h-2 rounded-full bg-amber-400 absolute top-2 right-2" />
               )}
             </button>
@@ -190,37 +211,37 @@ export const Sidebar: React.FC = () => {
         })}
       </nav>
 
-      {/* Summary Footer Card */}
+      {/* Desktop App Status Card at Bottom of Sidebar */}
       {!isSidebarCollapsed ? (
-        <div className="p-3 border-t border-slate-800 bg-slate-950/60 space-y-2">
-          {/* Quick Financial Snapshot */}
-          <div className="p-2.5 rounded-lg bg-slate-900 border border-slate-800 space-y-1.5">
+        <div className="p-2.5 border-t border-slate-800 bg-slate-950/50 space-y-2">
+          {/* Financial summary widget */}
+          <div className="p-2 rounded-lg bg-slate-900/90 border border-slate-800/80 space-y-1">
             <div className="flex items-center justify-between text-[11px] text-slate-400">
-              <span className="flex items-center gap-1.5">
-                <DollarSign className="w-3.5 h-3.5 text-emerald-400" />
-                Ventas Hoy
+              <span className="flex items-center gap-1">
+                <DollarSign className="w-3 h-3 text-emerald-400" />
+                Ventas Turno
               </span>
-              <span className="font-mono-numbers text-slate-200 font-semibold">
+              <span className="font-mono-numbers text-white font-bold text-xs">
                 {settings.currencySymbol} {financials.totalTodaySales.toFixed(2)}
               </span>
             </div>
-            <div className="flex items-center justify-between text-[11px] text-slate-400">
-              <span>Capital en Stock</span>
-              <span className="font-mono-numbers text-slate-300">
+            <div className="flex items-center justify-between text-[10px] text-slate-400 font-mono-numbers">
+              <span>Valor Stock</span>
+              <span className="text-amber-300 font-semibold">
                 {settings.currencySymbol} {financials.capitalInvestedStock.toFixed(2)}
               </span>
             </div>
           </div>
 
-          {/* Cashier Shift Info */}
-          <div className="flex items-center justify-between px-1 text-[11px] text-slate-400">
-            <span className="truncate">Caja: {cashShift.cashierName}</span>
-            <span className="font-mono-numbers text-emerald-400">Turno Abierto</span>
+          {/* Quick Cashier Badge */}
+          <div className="flex items-center justify-between px-1 text-[10px] text-slate-400 font-mono">
+            <span className="truncate">Caja: {cashShift.cashierName.split(' ')[0]}</span>
+            <span className="text-emerald-400 font-medium">Turno #1042</span>
           </div>
         </div>
       ) : (
-        <div className="p-3 border-t border-slate-800 flex justify-center">
-          <div className="w-2.5 h-2.5 rounded-full bg-emerald-400" title="Turno de Caja Abierto" />
+        <div className="p-2.5 border-t border-slate-800 flex justify-center">
+          <div className="w-2 h-2 rounded-full bg-emerald-400" title="Turno Activo" />
         </div>
       )}
     </aside>

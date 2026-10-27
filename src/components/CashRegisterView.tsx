@@ -47,6 +47,7 @@ export const CashRegisterView: React.FC = () => {
 
   // Arqueo calculator
   const [bills, setBills] = useState({
+    b200: 0,
     b100: 0,
     b50: 0,
     b20: 0,
@@ -55,6 +56,7 @@ export const CashRegisterView: React.FC = () => {
   });
 
   const totalCalculatedFromBills =
+    bills.b200 * 200 +
     bills.b100 * 100 +
     bills.b50 * 50 +
     bills.b20 * 20 +
@@ -262,7 +264,7 @@ export const CashRegisterView: React.FC = () => {
               </h3>
             </div>
             <button
-              onClick={() => setBills({ b100: 0, b50: 0, b20: 0, b10: 0, coins: 0 })}
+              onClick={() => setBills({ b200: 0, b100: 0, b50: 0, b20: 0, b10: 0, coins: 0 })}
               className="text-xs text-slate-400 hover:text-white"
             >
               Limpiar
@@ -274,6 +276,21 @@ export const CashRegisterView: React.FC = () => {
           </p>
 
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 text-xs">
+            <div className="p-2.5 rounded-lg bg-slate-950 border border-slate-800">
+              <span className="text-slate-400 block mb-1">Billetes {settings.currencySymbol}200</span>
+              <input
+                type="number"
+                min="0"
+                value={bills.b200 || ''}
+                placeholder="0"
+                onChange={(e) => setBills({ ...bills, b200: Number(e.target.value) })}
+                className="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1 text-white font-mono-numbers"
+              />
+              <span className="text-[10px] text-slate-500 mt-1 block text-right font-mono-numbers">
+                = {settings.currencySymbol}{bills.b200 * 200}
+              </span>
+            </div>
+
             <div className="p-2.5 rounded-lg bg-slate-950 border border-slate-800">
               <span className="text-slate-400 block mb-1">Billetes {settings.currencySymbol}100</span>
               <input

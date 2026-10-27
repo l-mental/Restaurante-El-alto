@@ -106,7 +106,25 @@ const LOCAL_STORAGE_KEY = 'gourmet_os_restaurant_state_v1';
 export const RestaurantProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [settings, setSettings] = useState<RestaurantSettings>(() => {
     const saved = localStorage.getItem(`${LOCAL_STORAGE_KEY}_settings`);
-    return saved ? JSON.parse(saved) : initialSettings;
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        // Migrate to Bolivianos if was previous default USD or not yet set
+        if (parsed.currency === 'USD' || !parsed.currency) {
+          return {
+            ...parsed,
+            currency: 'BOB',
+            currencySymbol: 'Bs.',
+            taxName: parsed.taxName || 'IVA',
+            taxRate: parsed.taxRate === 0.18 ? 0.13 : parsed.taxRate,
+          };
+        }
+        return parsed;
+      } catch (e) {
+        return initialSettings;
+      }
+    }
+    return initialSettings;
   });
 
   const [inventory, setInventory] = useState<InventoryItem[]>(() => {
